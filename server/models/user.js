@@ -7,38 +7,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique : true,
         required : true,
-        index : true,
+        // index : true,
     },
-    firstName : { 
+    name : { 
         type : String,
-        index : true,
-    },
-    lastName : { 
-        type : String,
+        // index : true,
     },
     email : {
         type : String,
         required : true,
-        index : true
-    },
-    avatar : { 
-        type : String,
-    },
-    currentGame : { 
-        gameLobby : {
-            type : String,
-            trim : true,
-            lowercase : true
-        },
-    },
-    positionInGame : {
-        bestScore : {
-            type : Number,
-            default : 0
-        },
-        rank : {
-            type : Number
-        }
+        // index : true
     },
     tokens : [{ 
         token : {

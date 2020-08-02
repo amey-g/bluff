@@ -28,7 +28,6 @@ router.get('', (req, res) => {
 // Route for initialising login request
 router.get('/login', async (req, res) => {
   if(!req.cookies.jwtToken){
-    console.log('1234')
     const url = oAuth2Client.generateAuthUrl({
     access_type : 'offline',
     scope : ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
@@ -63,10 +62,7 @@ router.get('/redirect', generateAccessToken, async (req, res) => {  // Middlewar
     if(!user){
       const user = new User({
         email,
-        fullName : name.split(' ')[0],
-        lastName : name.split(' ').reverse()[0],
-        username : email.split('@')[0],
-        avatar : picture,
+        name
       })
       await user.save()
       await user.generateAuthToken(res) // Defined in (../models/user.js) => Cookies are set using this along with that jwt Token is also generated
