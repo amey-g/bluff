@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 userSchema.set('autoIndex', false) 
 
 userSchema.methods.generateAuthToken = async function (res) { // function for instance of userSchema
-    const token = jwt.sign( { email : this.email, id : this._id }, process.env.JWT_SECRET_KEY, { expiresIn : '7d' } ) // generating jwt token with user email embedded in it
+    const token = jwt.sign( { email : this.email, id : this._id }, process.env.JWT_SECRET, { expiresIn : '7d' } ) // generating jwt token with user email embedded in it
     this.tokens = this.tokens.concat({ token })
     
     /*Setting up Cookie*/
