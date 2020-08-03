@@ -14,9 +14,9 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 const REDIRECT_URL = process.env.REDIRECT_URI
 
 /* New oAuth2Client using credential provided above */
-const oAuth2Client = new google.auth.OAuth2(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URL)
+const oauthClient = new google.auth.OAuth2(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URL)
 
-const client = new OAuth2Client(GOOGLE_CLIENT_ID)
+const client = new oauthClient(GOOGLE_CLIENT_ID)
 
 
 router.get('', (req, res) => {  

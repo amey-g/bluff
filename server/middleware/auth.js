@@ -9,7 +9,7 @@ const REDIRECT_URL = process.env.REDIRECT_URI
 
 
 /* New oAuth2Client using credential provided above */
-const oAuth2Client = new google.auth.OAuth2(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URL)
+const oauthClient = new google.auth.OAuth2(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URL)
 
 
 const generateAccessToken = async function(req, res, next) {  // Function to generate Access Token from Auth. Code (used as Middleware)
@@ -17,7 +17,7 @@ const generateAccessToken = async function(req, res, next) {  // Function to gen
     if(req.query.code){
       const code = req.query.code
       try{
-        const { tokens } = await oAuth2Client.getToken(code) // Generating token by Verifying Code
+        const { tokens } = await oauthClient.getToken(code) // Generating token by Verifying Code
         // oAuth2Client.setCredentials(tokens)  // use for generating refresh token for later time 
         req.id_token = tokens.id_token // setting an id_token property on req object
         next()
