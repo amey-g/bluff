@@ -33,13 +33,13 @@ const generateAccessToken = async function(req, res, next) {  // Function to gen
 }
 
 const verifyToken = async (req, res, next) => { // Function to verify jwt token and email set on cookie are not tampered, useful in case someone changed cookie
-  const token = req.cookies.jwtToken || '' 
+  const token = req.cookies.token || '' 
   try {
     if(!token) {
       res.status(401).send({ "error" : "You need to login first" })
     }
     if(token){
-      const decrypt = await jwt.verify(token, process.env.JWT_SECRET_KEY) // Decrypting jwt Token
+      const decrypt = await jwt.verify(token, process.env.JWT_SECRET) // Decrypting jwt Token
       if(decrypt.email !== req.cookies.email){  // checks if email (on cookie) and email embedded on token by generateAuthToken fumction (defined in ../models/user.js) hasn't been tampered 
         res.status(400).send({ "error" : "invalid request" })
       }
@@ -54,6 +54,6 @@ const verifyToken = async (req, res, next) => { // Function to verify jwt token 
 
 
 module.exports = {
-    generateAccessToken,
-    verifyToken
+  generateAccessToken,
+  verifyToken
 }

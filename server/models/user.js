@@ -33,7 +33,7 @@ userSchema.methods.generateAuthToken = async function (res) { // function for in
     this.tokens = this.tokens.concat({ token })
     
     /*Setting up Cookie*/
-    res.cookie("jwtToken", token)
+    res.cookie("token", token)
     res.cookie("email", this.email)
     
     await this.save()

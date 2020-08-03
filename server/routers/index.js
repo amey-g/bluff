@@ -23,11 +23,9 @@ router.get('', (req, res) => {
   res.render('index')
 })
 
-
-
 // Route for initialising login request
 router.get('/login', async (req, res) => {
-  if(!req.cookies.jwtToken){
+  if(!req.cookies.token){
     const url = oAuth2Client.generateAuthUrl({
     access_type : 'offline',
     scope : ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"]
@@ -35,7 +33,7 @@ router.get('/login', async (req, res) => {
     res.redirect(url)
   }else {
     try{
-      const decrypt = await jwt.verify(req.cookies.jwtToken, process.env.JWT_SECRET)
+      const decrypt = await jwt.verify(req.cookies.token, process.env.JWT_SECRET)
       res.send({ message :"You are already logged in" })
     }catch(e){
        res.status(401).send({ error : "Try Again"}) 
@@ -84,10 +82,10 @@ router.get('/profile', verifyToken, (req, res) => {
 router.post('/logout', verifyToken, async (req, res) => {
   try{
     const user = await User.findOne({ _id : req._id })
-    user.tokens = user.tokens.filter( (token) =>  token.token !== req.cookies.jwtToken ) // Deleting Token for array
+    user.tokens = user.tokens.filter( (token) =>  token.token !== req.cookies.token ) // Deleting Token for array
    
     // Resetting Cookie
-    await res.clearCookie("jwtToken")  
+    await res.clearCookie("token")  
     await res.clearCookie("email")
     await user.save()
     res.redirect('/')
@@ -102,7 +100,7 @@ router.post('/logout/all', verifyToken, async( req, res) => {
   try{
     const user = await User.findOne({ _id : req._id })
     user.tokens = []
-    await res.clearCookie("jwtToken")  
+    await res.clearCookie("token")  
     await res.clearCookie("email")
     await user.save()
     res.redirect('/')
